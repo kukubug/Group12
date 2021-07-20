@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/index.css" />
+    <script src="./js/d3.min.js"></script>
+    <script src="./js/index.js"></script>
+
+    <title>Document</title>
+</head>
+<style>
+
+</style>
+
+<body>
+    <div id="container">
+
+        <div id="header">
+            <h1>China-US relation</h1>
+        </div>
+
+        <div id="menu">
+            <div id=left-top>
+                <div>
+                    <strong>Filter:</strong>
+                    <label><input type="checkbox" name="US" value="1" id="filter-us-only" />US only</label>
+                </div>
+
+                <script>
+                    const margin = { top: 30, bottom: 10, left: 100, right: 20 };
+                    const width = 300 - margin.left - margin.right;
+                    const height = 150 - margin.top - margin.bottom;
+
+                    const svg = d3
+                        .select("#left-top")
+                        .append("svg")
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.top + margin.bottom);
+
+                    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+                    // Global variable for all data
+                    let data;
+
+                    // Scales setup
+                    const xscale = d3.scaleLinear().range([0, width]);
+                    const yscale = d3.scaleBand().rangeRound([0, height]).paddingInner(0.1);
+
+                    // Axis setup
+                    const xaxis = d3.axisTop().scale(xscale)
+                    const g_xaxis = g.append("g").attr("class", "x axis").attr("tickWidth",0);;
+                    const yaxis = d3.axisLeft().scale(yscale);
+                    const g_yaxis = g.append("g").attr("class", "y axis");
+
+                    // var tooltip =d3.select("#").append("div")
+                    // .attr("class","tooltip")
+                    // .style("opacity",0)
+
+                    // d3.
+
+
+                    d3.json("./data.json").then((json) => {
+                        data = json;
+
+                        update(data);
+                    });
+
+                    function update(new_data) {
+
+                        xscale.domain([0, d3.max(new_data, (d) => d.value)]);
+                        yscale.domain(new_data.map((d) => d.theme.name));
+
+                        g_xaxis.transition().call(xaxis);
+                        g_yaxis.transition().call(yaxis);
+
+                        const rect = g
+                            .selectAll("rect")
+                            .data(new_data, (d) => d.theme.name)
+                            .join(
+
+                                (enter) => {
+                                    const rect_enter = enter.append("rect").attr("x", 0);
+                                    rect_enter.append("title");
+                                    return rect_enter;
+                                },
+
+                                (update) => update,
+
+                                (exit) => exit.remove()
+                            );
+
+                        rect
+                            .transition()
+                            .attr("height", yscale.bandwidth())
+                            .attr("width", (d) => xscale(d.value))
+                            .attr("y", (d) => yscale(d.theme.name))
+                            .on('mouseover',function(d,i){
+                             
+                                tooltip.style('visibility','visible').text(d[2])
+                                
+                            })
+
+                        rect.select("title").text((d) => d.theme.name);
+                    }
+
+                    //interactivity
+                    d3.select("#filter-us-only").on("change", function () {
+                        // This will be triggered when the user selects or unselects the checkbox
+                        const checked = d3.select(this).property("checked");
+                        if (checked === true) {
+                            // Checkbox was just checked
+
+                            // Keep only data element whose country is US
+                            const filtered_data = data.filter((d) => d.theme.country === "US");
+
+                            update(filtered_data); // Update the chart with the filtered data
+                        } else {
+                            // Checkbox was just unchecked
+                            update(data); // Update the chart with all the data we have
+                        }
+                    });
+                </script>
+
+            </div>
+            <div id="left-bottom">
+                <div id="table">
+                    <table id="tabel1" frame="below">
+
+                        <th>News's theme</th>
+                        <table id="tabel2" frame="below">
+                            <tr>
+                                <!-- 渲染数据 -->
+                                <th>
+                                    <p onclick="change2()">business</p>
+                                </th>
+
+
+                            </tr>
+                            <tr>
+                                <td>2021</td>
+                                <td>139</td>
+                            </tr>
+                        </table>
+                        <table id="tabel3" frame="below">
+                            <tr>
+                                <th>politics</th>
+
+                            </tr>
+                            <tr>
+                                <td>2021</td>
+                                <td>306</td>
+                            </tr>
+                        </table>
+                        <table id="tabel4" frame="below">
+                            <tr>
+                                <th>society</th>
+
+                            </tr>
+                            <tr>
+                                <td>2021</td>
+                                <td>95</td>
+                            </tr>
+                        </table>
+                        <table id="tabel5" frame="below">
+                            <tr>
+                                <th>covid-19</th>
+
+                            </tr>
+                            <tr>
+                                <td>2021</td>
+                                <td>232</td>
+                            </tr>
+                        </table>
+                        <table id="tabel6" frame="below">
+                            <tr>
+                                <th>tech</th>
+
+                            </tr>
+                            <tr>
+                                <td>2021</td>
+                                <td>43</td>
+                            </tr>
+                        </table>
+                        <table id="tabel7" frame="below">
+                            <tr>
+                                <th>others</th>
+
+                            </tr>
+                            <tr>
+                                <td>2021</td>
+                                <td>223</td>
+                            </tr>
+                        </table>
+
+
+                    </table>
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <div id="content">
+            <!-- d3.csv("../Group12/css/data.json",function(error,csvdata){  
+
+    if(error){  
+        console.log(error);  
+    }  
+    console.log(csvdata);  
+    
+ 
+    for( var i=0; i<csvdata.length; i++ ){  
+        var date = csvdata[i].date;  
+        var business= csvdata[i].close;  
+        var pe = csvdata[i].pe;  
+        var pep = csvdata[i].pep;  
+        var p20 = csvdata[i].p20;  
+        var p50 = csvdata[i].p50;  
+        var p80 = csvdata[i].p80;  
+      
+    }
+});  
+
+                       d3.select("change2").on("onclick", function () {
+                           if()
+
+                           update(data)
+                           )}-->
+        </div>
+
+        <div id="footer">
+            by group 12
+        </div>
+
+    </div>
+
+</body>
+
+</html>
