@@ -3,7 +3,9 @@
   height: 700px;
 }
 #header{
-  background-color: #FFA500;
+  background-image: url('../img/header.jpg');
+ opacity: 0.5;
+
 }
 h1{
   margin-bottom: 0;
@@ -60,7 +62,8 @@ height: 200px;
 #footer{
   clear: both;
   text-align: center;
-  background-color:#FFA500 ;
+  background-image: url('../img/header.jpg');
+  opacity: 0.5;
 }
 
 rect {
