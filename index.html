@@ -7,15 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/index.css" />
     <script src="./js/d3.min.js"></script>
-   
-    
-
-    
-   
 
 
 
-    
+
+
+
+
+
+
 
     <title>Document</title>
 </head>
@@ -51,10 +51,10 @@
                             <tr>
                                 <!-- 渲染数据 -->
                                 <th>
-                                    <p onclick="change2()">  <img src="./img/business.png" > business
-                                      
+                                    <p  id="businessClick"  > <img src="./img/business.png"> business
+
                                     </p>
-                                  
+
                                     <div id="bar1">
 
                                     </div>
@@ -62,16 +62,16 @@
 
 
                             </tr>
-                         
-                                <td></td>
-                           
-                          
+
+                            <td></td>
+
+
                         </table>
                         <table id="tabel2" frame="below">
                             <tr>
                                 <!-- 渲染数据 -->
                                 <th>
-                                    <p onclick="change2()"><img src="./img/politics.png" >politics
+                                    <p onclick="change2()"><img src="./img/politics.png">politics
 
                                     </p>
                                     <div id="bar2">
@@ -81,13 +81,13 @@
 
 
                             </tr>
-                        
+
                         </table>
                         <table id="tabel3" frame="below">
                             <tr>
                                 <!-- 渲染数据 -->
                                 <th>
-                                    <p onclick="change2()"><img src="./img/covid-19.png" >covid-19
+                                    <p onclick="change2()"><img src="./img/covid-19.png">covid-19
 
                                     </p>
                                     <div id="bar3">
@@ -97,13 +97,14 @@
 
 
                             </tr>
-                    
+
                         </table>
                         <table id="tabel4" frame="below">
                             <tr>
                                 <!-- 渲染数据 -->
                                 <th>
-                                    <p onclick="change2()"><img src="./img/society.png" >society
+                                    <p onclick="change()"><img src="./img/society.png">society
+                                  
 
                                     </p>
                                     <div id="bar4">
@@ -113,13 +114,13 @@
 
 
                             </tr>
-                  
+
                         </table>
                         <table id="tabel5" frame="below">
                             <tr>
                                 <!-- 渲染数据 -->
                                 <th>
-                                    <p onclick="change2()"><img src="./img/tech.png" >tech
+                                    <p onclick="change2()"><img src="./img/tech.png">tech
 
 
                                     </p>
@@ -130,9 +131,9 @@
 
 
                             </tr>
-                      
+
                         </table>
-                       
+
 
                     </table>
 
@@ -150,53 +151,28 @@
 
         <div id="content">
             <div id="scatter">
-
             </div>
-            <!-- d3.csv("../Group12/css/data.json",function(error,csvdata){  
-
-    if(error){  
-        console.log(error);  
-    }  
-    console.log(csvdata);  
-    
- 
-    for( var i=0; i<csvdata.length; i++ ){  
-        var date = csvdata[i].date;  
-        var business= csvdata[i].close;   
-        var pe = csvdata[i].pe;  
-        var pep = csvdata[i].pep;  
-        var p20 = csvdata[i].p20;  
-        var p50 = csvdata[i].p50;  
-        var p80 = csvdata[i].p80;  
-      
-    }
-});  
-
-                       d3.select("change2").on("onclick", function () {
-                           if()
-
-                           update(data)
-                           )}-->
+          
         </div>
 
         <div id="footer">
             by group 12
         </div>
-      
+
     </div>
-    <script src="./js/index.js"></script>
-    <script src="./scatter.js"></script>
+    <!-- <script src="./js/index.js"></script> -->
+    <script src="./scatter2.js"></script>
     <script src="./js/echarts.min.js"></script>
     <script src="./js/barchart.js"></script>
-  
-    <!-- <script src="./js/barchart2.js"></script> -->
-  
 
- 
-   
-    
-    
- 
+    <!-- <script src="./js/barchart2.js"></script> -->
+
+
+
+
+
+
+
 </body>
 
 </html>

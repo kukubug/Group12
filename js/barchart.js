@@ -2,6 +2,8 @@
 (function(){
     var myChart = echarts.init(document.getElementById('bar1'));
     var option1;
+
+    // $.get('/data/asset/data/aqi-beijing.json', function (data) {
     option1 = {
         tooltip: {
             trigger: 'axis',
@@ -71,7 +73,11 @@
          
         ]
     };
+// })
+   
+
     option1 && myChart.setOption(option1);
+    
     
 })();
 //politics

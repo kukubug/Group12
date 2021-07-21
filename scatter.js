@@ -13,7 +13,7 @@ let timeEnd = dataParse("2020/8/31");
 let timeScaleBasic = d3.scaleUtc().domain([dataParse("2020/1/1"), dataParse("2020/12/31")]).range([margin, width-margin]);
 
 // console.log(timeScaleBasic.invert(300+margin),timeScaleBasic.invert(600+margin));
-var svg = d3.select("#scatter")
+var svg = d3.select("#")
             .append("svg")
               .attr("width",width).attr("height",height);
 
@@ -21,6 +21,10 @@ var svg = d3.select("#scatter")
 d3.csv("./news_ChinaUS.csv").then(function fulfilled(data){
     // console.log(data);
     // data = d3.filter(data,d => Boolean(d.source) & 1);
+    
+
+
+  
 
     let dataChina = d3.filter(data,d => d.source=="chinadaily");
     // let dataChinaDay = Array.from(d3.rollup(dataChina, v => v.length, d => d.date));
@@ -33,13 +37,24 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data){
     // console.log(dataUS,dataUSDay);
 
     let timeScale = d3.scaleUtc().domain([timeStart, timeEnd]).range([margin, width-margin]);
-    let colorScale = {
+    var colorScale = {
         "1":"#FF6B18",
         "-1":"#8B8B8B"
     }
+    let dataBusiness = d3.filter(data,d=> d.category=="business")
+    console.log(dataBusiness)
+    update(data)
+
+
+  function update(new_data){
+      let dataChina_new = d3.filter(new_data,d => d.source=="chinadaily");
+      let dataUS_new = d3.filter(new_data,d=>d.source=='nytimes')
+      let dataUSDay_new = d3.filter(d3.group(dataUS_new, d => d.date));
+      let dataChinaDay_new = Array.from(d3.group(dataChina_new, d => d.date));
+    
 
     let svgChina = svg.append('g');
-    svgChina.selectAll(".g-China").data(dataChinaDay)
+    svgChina.selectAll(".g-China").data(dataChinaDay_new)
                 .join("g").attr("class","g-China").attr("transform", d => `translate(${timeScale(dataParse(d[0]))},0)`)
                 .selectAll(".circle-China").data(d=>d[1])
                     .join("circle")
@@ -51,7 +66,7 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data){
 
 
     let svgUS = svg.append('g');
-    svgUS.selectAll(".g-US").data(dataUSDay)
+    svgUS.selectAll(".g-US").data(dataUSDay_new)
             .join("g").attr("class","g-US").attr("transform", d => `translate(${timeScale(dataParse(d[0]))},0)`)
             .selectAll(".circle-US").data(d=>d[1])
                 .join("circle")
@@ -83,12 +98,17 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data){
         d3.selectAll("circle").attr("cx", d => timeScale(dataParse(d.date)));
         // update();
     }
+}
 
-    function update(){
-        
-    }
+  
+   
+   document.getElementById("businessClick").addEventListener("click", function() {
+   // alert("sfs")
+  update(dataBusiness)
+  
 
-})
+}, false)
+
 
 // function groupDays(n,data){
 //     let result = [];
@@ -106,3 +126,4 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data){
 //     return result;
 // }
 
+}) 

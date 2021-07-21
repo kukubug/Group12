@@ -94,7 +94,4 @@ d3.select("#filter-us-only").on("change", function () {
 });
 
 
-function change2(){
-    alert("is success")
-    
-}
+
