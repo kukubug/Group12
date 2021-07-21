@@ -1,6 +1,6 @@
-let width = 1000;
-let height = 800;
-let margin = 50;
+let width = d3.select("#scatter").node().getBoundingClientRect().width;
+let height = d3.select("#scatter").node().getBoundingClientRect().height;
+let margin = 10;
 let gap = 15;
 let interval = 5;
 let maxDay = (width - 2 * margin) / 2;
@@ -52,7 +52,7 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data) {
         .attr("class", "circle-China")
         .attr("r", rVary[0])
         .attr("cx", (d, i) => timeScale(dataParse(d.date)))
-        .attr("cy", (d, i) => width / 2 - gap - interval - rVary[0] - i * rVary[0] * 2)
+        .attr("cy", (d, i) => height / 2 - gap - interval - rVary[0] - i * rVary[0] * 2)
         .attr("fill", d => colorScale[d.emotion])
         .style("visibility", d => {
             if (dataParse(d.date) < timeStart || dataParse(d.date) > timeEnd) return "hidden";
@@ -86,7 +86,7 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data) {
         .attr("class", "circle-US")
         .attr("r", rVary[0])
         .attr("cx", (d, i) => timeScale(dataParse(d.date)))
-        .attr("cy", (d, i) => width / 2 + gap + interval + rVary[0] + i * rVary[0] * 2)
+        .attr("cy", (d, i) => height / 2 + gap + interval + rVary[0] + i * rVary[0] * 2)
         .attr("fill", d => colorScale[d.emotion])
         .style("visibility", d => {
             if (dataParse(d.date) < timeStart || dataParse(d.date) > timeEnd) return "hidden";
@@ -118,10 +118,10 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data) {
         .on("brush", brushmove)
         // .on("brush", brushed);
 
-    let timeLineRect = svg.append("rect").attr("x", margin).attr("y", width / 2 - gap)
+    let timeLineRect = svg.append("rect").attr("x", margin).attr("y", height / 2 - gap)
         .attr("width", width - 2 * margin).attr("height", gap * 2).attr("fill", "#C4C4C4");
 
-    let timeLine = svg.append("g").attr("transform", `translate(${margin},${width / 2 - gap})`)
+    let timeLine = svg.append("g").attr("transform", `translate(${margin},${height / 2 - gap})`)
         .call(brush)
         .call(brush.move, [timeScaleBasic(timeStart) - margin, timeScaleBasic(timeEnd) - margin]);
 
@@ -137,7 +137,7 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data) {
         timeScale.domain([timeStart, timeEnd]);
         d3.selectAll(".g-China").selectAll("circle").attr("cx", d => timeScale(dataParse(d.date)))
             .attr("cy", (d, i) => {
-                return width / 2 - gap - interval - rVary[0] - i * rVary[0] * 2;
+                return height / 2 - gap - interval - rVary[0] - i * rVary[0] * 2;
             })
             .attr("r", rVary[0])
             .style("visibility", d => {
@@ -149,7 +149,7 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data) {
 
         d3.selectAll(".g-US").selectAll("circle").attr("cx", d => timeScale(dataParse(d.date)))
             .attr("cy", (d, i) => {
-                return width / 2 + gap + interval + rVary[0] + i * rVary[0] * 2;
+                return height / 2 + gap + interval + rVary[0] + i * rVary[0] * 2;
             })
             .attr("r", rVary[0])
             .style("visibility", d => {
@@ -173,7 +173,7 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data) {
         d3.select("#tooltip").style("visibility", "hidden").html();
     }
 
-    let xAxis = svg.append("g").attr("transform", `translate(0,${width / 2 - gap / 2})`).call(d3.axisBottom().scale(timeScaleBasic).ticks(11))
+    let xAxis = svg.append("g").attr("transform", `translate(0,${height / 2 - gap / 2})`).call(d3.axisBottom().scale(timeScaleBasic).ticks(11))
 
     let legend = svg.append("g").attr("transform", "translate(50,10)");
     legend.selectAll(".circle-legend").data([-1, 0, 1]).join("circle")
