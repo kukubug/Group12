@@ -7,6 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/index.css" />
     <script src="./js/d3.min.js"></script>
+   
+    
+
+    
+   
+
+
 
     
 
@@ -24,7 +31,7 @@
         </div>
 
         <div id="menu">
-            <div id=left-top>
+            <!-- <div id=left-top>
                 <div>
                     <strong>Filter:</strong>
                     <label><input type="checkbox" name="US" value="1" id="filter-us-only" />US only</label>
@@ -34,77 +41,98 @@
 
                </div>
 
-            </div>
-            <div id="left-bottom">
-                <div id="table">
-                    <table id="tabel1" frame="below">
+            </div> -->
+            <div id="left-top">
+                <div id="table_group">
+                    <table id="tabel" frame="below">
 
                         <th>News's theme</th>
-                        <table id="tabel2" frame="below">
+                        <table id="tabel1" frame="below">
                             <tr>
                                 <!-- 渲染数据 -->
                                 <th>
-                                    <p onclick="change2()">business</p>
+                                    <p onclick="change2()">  <img src="./img/business.png" > business
+                                      
+                                    </p>
+                                  
+                                    <div id="bar1">
+
+                                    </div>
                                 </th>
 
 
                             </tr>
+                         
+                                <td></td>
+                           
+                          
+                        </table>
+                        <table id="tabel2" frame="below">
                             <tr>
-                                <td>2021</td>
-                                <td>139</td>
+                                <!-- 渲染数据 -->
+                                <th>
+                                    <p onclick="change2()"><img src="./img/politics.png" >politics
+
+                                    </p>
+                                    <div id="bar2">
+
+                                    </div>
+                                </th>
+
+
                             </tr>
+                        
                         </table>
                         <table id="tabel3" frame="below">
                             <tr>
-                                <th>politics</th>
+                                <!-- 渲染数据 -->
+                                <th>
+                                    <p onclick="change2()"><img src="./img/covid-19.png" >covid-19
+
+                                    </p>
+                                    <div id="bar3">
+
+                                    </div>
+                                </th>
+
 
                             </tr>
-                            <tr>
-                                <td>2021</td>
-                                <td>306</td>
-                            </tr>
+                    
                         </table>
                         <table id="tabel4" frame="below">
                             <tr>
-                                <th>society</th>
+                                <!-- 渲染数据 -->
+                                <th>
+                                    <p onclick="change2()"><img src="./img/society.png" >society
+
+                                    </p>
+                                    <div id="bar4">
+
+                                    </div>
+                                </th>
+
 
                             </tr>
-                            <tr>
-                                <td>2021</td>
-                                <td>95</td>
-                            </tr>
+                  
                         </table>
                         <table id="tabel5" frame="below">
                             <tr>
-                                <th>covid-19</th>
+                                <!-- 渲染数据 -->
+                                <th>
+                                    <p onclick="change2()"><img src="./img/tech.png" >tech
+
+
+                                    </p>
+                                    <div id="bar5">
+
+                                    </div>
+                                </th>
+
 
                             </tr>
-                            <tr>
-                                <td>2021</td>
-                                <td>232</td>
-                            </tr>
+                      
                         </table>
-                        <table id="tabel6" frame="below">
-                            <tr>
-                                <th>tech</th>
-
-                            </tr>
-                            <tr>
-                                <td>2021</td>
-                                <td>43</td>
-                            </tr>
-                        </table>
-                        <table id="tabel7" frame="below">
-                            <tr>
-                                <th>others</th>
-
-                            </tr>
-                            <tr>
-                                <td>2021</td>
-                                <td>223</td>
-                            </tr>
-                        </table>
-
+                       
 
                     </table>
 
@@ -112,6 +140,11 @@
 
 
 
+            </div>
+            <div id="left-bottom">
+                <div id="streamgraph">
+
+                </div>
             </div>
         </div>
 
@@ -129,7 +162,7 @@
  
     for( var i=0; i<csvdata.length; i++ ){  
         var date = csvdata[i].date;  
-        var business= csvdata[i].close;  
+        var business= csvdata[i].close;   
         var pe = csvdata[i].pe;  
         var pep = csvdata[i].pep;  
         var p20 = csvdata[i].p20;  
@@ -149,10 +182,21 @@
         <div id="footer">
             by group 12
         </div>
-        <script src="./js/index.js"></script>
+      
     </div>
+    <script src="./js/index.js"></script>
     <script src="./scatter.js"></script>
+    <script src="./js/echarts.min.js"></script>
+    <script src="./js/barchart.js"></script>
+  
+    <!-- <script src="./js/barchart2.js"></script> -->
+  
 
+ 
+   
+    
+    
+ 
 </body>
 
 </html>

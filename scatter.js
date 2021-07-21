@@ -12,7 +12,7 @@ let timeEnd = dataParse("2020/8/31");
 // console.log(timeEnd-timeStart,rScale);
 let timeScaleBasic = d3.scaleUtc().domain([dataParse("2020/1/1"), dataParse("2020/12/31")]).range([margin, width-margin]);
 
-console.log(timeScaleBasic.invert(300+margin),timeScaleBasic.invert(600+margin));
+// console.log(timeScaleBasic.invert(300+margin),timeScaleBasic.invert(600+margin));
 var svg = d3.select("#scatter")
             .append("svg")
               .attr("width",width).attr("height",height);
@@ -26,11 +26,11 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data){
     // let dataChinaDay = Array.from(d3.rollup(dataChina, v => v.length, d => d.date));
     let dataChinaDay = Array.from(d3.group(dataChina, d => d.date));
     // let dataChinaDayGroup = groupDays(rScale,dataChinaDay);
-    console.log(dataChina,dataChinaDay);
+    // console.log(dataChina,dataChinaDay);
 
     let dataUS = d3.filter(data,d => d.source=="nytimes");
     let dataUSDay = Array.from(d3.group(dataUS, d => d.date));
-    console.log(dataUS,dataUSDay);
+    // console.log(dataUS,dataUSDay);
 
     let timeScale = d3.scaleUtc().domain([timeStart, timeEnd]).range([margin, width-margin]);
     let colorScale = {
@@ -72,14 +72,14 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data){
     let timeLine = svg.append("g").attr("transform",`translate(${margin},${width/2-5})`).call(brush).call(brush.move,[300,600]);
     
     function brushmove({selection}){
-        console.log(selection);
+        // console.log(selection);
         const [x0, x1] = selection;
         timeStart = timeScaleBasic.invert(x0+margin);
         timeEnd = timeScaleBasic.invert(x1+margin);
 
-        console.log(timeStart,timeEnd);
+        // console.log(timeStart,timeEnd);
         timeScale.domain([timeStart,timeEnd]);
-        console.log(timeStart,timeScale(timeStart));
+        // console.log(timeStart,timeScale(timeStart));
         d3.selectAll("circle").attr("cx", d => timeScale(dataParse(d.date)));
         // update();
     }
