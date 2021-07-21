@@ -116,7 +116,7 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data) {
     const brush = d3.brushX()
         .extent([[0, 0], [width - 2 * margin, gap * 2]])
         .on("brush", brushmove)
-        .on("brush", brushed);
+        // .on("brush", brushed);
 
     let timeLineRect = svg.append("rect").attr("x", margin).attr("y", width / 2 - gap)
         .attr("width", width - 2 * margin).attr("height", gap * 2).attr("fill", "#C4C4C4");
@@ -159,14 +159,14 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data) {
                 }
             });
 
-        let timeBrush = timeScaleBasic.invert(d3.pointer(event, document.body)[0]);
-        let month = timeBrush.getMonth() + 1;
-        let timeCurrent = timeBrush.getFullYear() + "/" + month + "/" + timeBrush.getDate();
-        d3.select("#tooltip")
-            .style("left", (d3.pointer(event, document.body)[0] + 10) + "px")
-            .style("top", (d3.pointer(event, document.body)[1] - 10) + "px")
-            .style("visibility", "visible")
-            .html(`${timeCurrent}`);
+        // let timeBrush = timeScaleBasic.invert(d3.pointer(event, document.body)[0]);
+        // let month = timeBrush.getMonth() + 1;
+        // let timeCurrent = timeBrush.getFullYear() + "/" + month + "/" + timeBrush.getDate();
+        // d3.select("#tooltip")
+        //     .style("left", (d3.pointer(event, document.body)[0] + 10) + "px")
+        //     .style("top", (d3.pointer(event, document.body)[1] - 10) + "px")
+        //     .style("visibility", "visible")
+        //     .html(`${timeCurrent}`);
     }
 
     function brushed() {
@@ -175,6 +175,14 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data) {
 
     let xAxis = svg.append("g").attr("transform", `translate(0,${width / 2 - gap / 2})`).call(d3.axisBottom().scale(timeScaleBasic).ticks(11))
 
+    let legend = svg.append("g").attr("transform", "translate(50,10)");
+    legend.selectAll(".circle-legend").data([-1, 0, 1]).join("circle")
+        .attr("cx", (d, i) => i * 50).attr("cy", 50)
+        .attr("r", 10).attr("fill", d => colorScale[d])
+
+    legend.selectAll(".text-legend").data(["消极", "中立", "积极"]).join("text")
+        .attr("x", (d, i) => i * 50).attr("y", 80)
+        .text(d => d).attr("text-anchor", "middle");
 
 })
 
