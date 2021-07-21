@@ -20,20 +20,13 @@ let svg = d3.select("#scatter")
     .attr("width", width).attr("height", height);
 
 
-d3.csv("./news_ChinaUS.csv").then(function fulfilled(data) {
-    // console.log(data);
-    // data = d3.filter(data,d => Boolean(d.source) & 1);
+d3.csv("./new_china.csv").then(function fulfilled(data) {
 
     let dataChina = d3.filter(data, d => d.source == "chinadaily");
-    // let dataChinaDay = Array.from(d3.rollup(dataChina, v => v.length, d => d.date));
     let dataChinaDay = Array.from(d3.group(dataChina, d => d.date));
-    // let dataChinaDayPos = d3.map(dataChinaDay,d=>d[0]);
-    // let dataChinaDayGroup = groupDays(rScale,dataChinaDay);
-    // console.log(dataChina,dataChinaDay);
 
     let dataUS = d3.filter(data, d => d.source == "nytimes");
     let dataUSDay = Array.from(d3.group(dataUS, d => d.date));
-    // console.log(dataUS,dataUSDay);
 
     let timeScale = d3.scaleUtc().domain([timeStart, timeEnd]).range([margin, width - margin]);
     let colorScale = {
@@ -42,7 +35,6 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data) {
         "0": "222222"
     }
     let rVary = countR(timeStart, timeEnd);
-    // console.log(rVary);
 
     let svgChina = svg.append('g');
     svgChina.selectAll(".g-China").data(dataChinaDay)
@@ -66,14 +58,11 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data) {
                 .style("top", (d3.pointer(event, document.body)[1] - 10) + "px");
         })
         .on("mouseover", function (event, d) {
-            // console.log(d);
-            // console.log(d3.pointer(event, document.body));
             d3.select("#tooltip").style("visibility", "visible")
                 .html(`Date: ${d.date}
                                     </br>title: ${d.headline}`);
         })
         .on("mouseout", function (event, d) {
-            // console.log(d);
             d3.select("#tooltip").style("visibility", "hidden").html();
         });
 
@@ -100,23 +89,18 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data) {
                 .style("top", (d3.pointer(event, document.body)[1] - 10) + "px");
         })
         .on("mouseover", function (event, d) {
-            // console.log(d);
-            // console.log(d3.pointer(event, document.body));
             d3.select("#tooltip").style("visibility", "visible")
                 .html(`Date: ${d.date}
                                 </br>title: ${d.headline}`);
         })
         .on("mouseout", function (event, d) {
-            // console.log(d);
             d3.select("#tooltip").style("visibility", "hidden").html();
         });
-
-
 
     const brush = d3.brushX()
         .extent([[0, 0], [width - 2 * margin, gap * 2]])
         .on("brush", brushmove)
-        // .on("brush", brushed);
+    // .on("brush", brushed);
 
     let timeLineRect = svg.append("rect").attr("x", margin).attr("y", height / 2 - gap)
         .attr("width", width - 2 * margin).attr("height", gap * 2).attr("fill", "#C4C4C4");
@@ -183,6 +167,111 @@ d3.csv("./news_ChinaUS.csv").then(function fulfilled(data) {
     legend.selectAll(".text-legend").data(["消极", "中立", "积极"]).join("text")
         .attr("x", (d, i) => i * 50).attr("y", 80)
         .text(d => d).attr("text-anchor", "middle");
+
+    //粗暴联动
+    d3.select("#all").on("click", function () {
+        svgChina.remove();
+        svgUS.remove();
+        update("");
+    });
+    d3.select("#bar1").on("click", function () {
+        svgChina.remove();
+        svgUS.remove();
+        update("business");
+    });
+    d3.select("#bar2").on("click", function () {
+        svgChina.remove();
+        svgUS.remove();
+        update("politics");
+    });
+    d3.select("#bar3").on("click", function () {
+        svgChina.remove();
+        svgUS.remove();
+        update("covid-19");
+    });
+    d3.select("#bar4").on("click", function () {
+        svgChina.remove();
+        svgUS.remove();
+        update("society");
+    });
+    d3.select("#bar5").on("click", function () {
+        svgChina.remove();
+        svgUS.remove();
+        update("tech");
+    });
+
+    function update(category) {
+        let dataChina = d3.filter(data, d => d.source == "chinadaily");
+        if (category != "") dataChina = d3.filter(data, d => d.category == category);
+        console.log(dataChina);
+        let dataChinaDay = Array.from(d3.group(dataChina, d => d.date));
+
+        let dataUS = d3.filter(data, d => d.source == "nytimes");
+        if (category != "") dataUS = d3.filter(data, d => d.category == category);
+        let dataUSDay = Array.from(d3.group(dataUS, d => d.date));
+
+        svgChina = svg.append('g');
+        svgChina.selectAll(".g-China").data(dataChinaDay)
+            .join("g").attr("class", "g-China")
+            .selectAll(".circle-China").data(d => d[1])
+            .join("circle")
+            .attr("class", "circle-China")
+            .attr("r", rVary[0])
+            .attr("cx", (d, i) => timeScale(dataParse(d.date)))
+            .attr("cy", (d, i) => height / 2 - gap - interval - rVary[0] - i * rVary[0] * 2)
+            .attr("fill", d => colorScale[d.emotion])
+            .style("visibility", d => {
+                if (dataParse(d.date) < timeStart || dataParse(d.date) > timeEnd) return "hidden";
+                else {
+                    return "visible";
+                }
+            })
+            .on("mousemove", function (event) {
+                d3.select("#tooltip")
+                    .style("left", (d3.pointer(event, document.body)[0] + 10) + "px")
+                    .style("top", (d3.pointer(event, document.body)[1] - 10) + "px");
+            })
+            .on("mouseover", function (event, d) {
+                d3.select("#tooltip").style("visibility", "visible")
+                    .html(`Date: ${d.date}
+                                    </br>title: ${d.headline}`);
+            })
+            .on("mouseout", function (event, d) {
+                d3.select("#tooltip").style("visibility", "hidden").html();
+            });
+
+
+        svgUS = svg.append('g');
+        svgUS.selectAll(".g-US").data(dataUSDay)
+            .join("g").attr("class", "g-US")
+            .selectAll(".circle-US").data(d => d[1])
+            .join("circle")
+            .attr("class", "circle-US")
+            .attr("r", rVary[0])
+            .attr("cx", (d, i) => timeScale(dataParse(d.date)))
+            .attr("cy", (d, i) => height / 2 + gap + interval + rVary[0] + i * rVary[0] * 2)
+            .attr("fill", d => colorScale[d.emotion])
+            .style("visibility", d => {
+                if (dataParse(d.date) < timeStart || dataParse(d.date) > timeEnd) return "hidden";
+                else {
+                    return "visible";
+                }
+            })
+            .on("mousemove", function (event) {
+                d3.select("#tooltip")
+                    .style("left", (d3.pointer(event, document.body)[0] + 10) + "px")
+                    .style("top", (d3.pointer(event, document.body)[1] - 10) + "px");
+            })
+            .on("mouseover", function (event, d) {
+                d3.select("#tooltip").style("visibility", "visible")
+                    .html(`Date: ${d.date}
+                                </br>title: ${d.headline}`);
+            })
+            .on("mouseout", function (event, d) {
+                d3.select("#tooltip").style("visibility", "hidden").html();
+            });
+    }
+
 
 })
 
