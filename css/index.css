@@ -1,0 +1,85 @@
+#container{
+  width: 100%;
+  height: 700px;
+}
+#header{
+  background-color: #FFA500;
+  /* background-image: url('../img/header.jpg'); */
+}
+h1{
+  margin-bottom: 0;
+  text-align: center;
+ 
+}
+#menu{
+  width: 300px;
+  height: 600px;
+
+  float: left;
+}
+#menu #left-top{
+height: 200px;
+
+}
+#menu #left-bottom{
+  height: 400px;
+  background-color:rgb(119, 164, 216);
+  }
+  #menu #left-bottom #tabel{
+  width:100%;
+  height: 300px;
+}
+#tabel1{
+  width: 100%;
+}
+#tabel2{
+  width: 100%;
+}
+#tabel3{
+  width: 100%;
+}
+#tabel4{
+  width: 100%;
+}
+#tabel5{
+  width: 100%;
+}
+#tabel6{
+  width: 100%;
+}
+#tabel7{
+  width: 100%;
+}
+
+#content{
+  width: 1200px;
+  height: 600px;
+  float: left;
+  background-color: #EEEEEE;
+
+}
+#footer{
+  clear: both;
+  text-align: center;
+  background-color:#FFA500 ;
+}
+
+rect {
+  fill: steelblue;
+  fill-opacity: 0.8;
+}
+rect:hover {
+  fill-opacity: 1;
+}
+.axis {
+  font-size: smaller;
+}
+
+#scatter{
+  width: 100%;
+  height: 500px;
+}
+#bar{
+   width: 100%;
+  height: 200px;
+}
